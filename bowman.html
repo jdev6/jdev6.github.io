@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="./res/icon.png">
+        <meta charset="UTF-8">
+        <title>Credit score text generator</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./style.css" />
+
+    </head>
+
+    <body>
+
+            <a class="back" href="../">go back</a>
+
+            <input placeholder="Parts (10+ recommended)" id="number" type="text" autofocus>
+            <br>
+            <button onclick="gen();">Generate</button>
+            <br>
+            <p id="output"></p>
+
+            <script>
+                //translated directly from lua code
+                var start = {}; start.t = ""; var thnkf = {}; var thsn = {}; var den = {}; var bd = {};
+                start.f = [thnkf,thnkf,thsn,den,bd,hics];
+                thnkf.t = " I'm thinking of a number";
+                var f5 = {}; var bt = {};
+                thnkf.f = [bt,f5];
+                bd.t = " But do you know what number I'm thinking of?";
+                bd.f = [thnkf,thsn,its];
+                thsn.t = " This number";
+                var cma = {}; var isbt = {}; var hap2b = {}; var e5 = {}; var is = {};
+                thsn.f=[cma,hap2b,hap2b,is,is];
+                den.t=" The number";
+                den.f=thsn.f;
+                bt.t=" between my buttocks.";
+                var uno={};
+                bt.f=[uno];
+                f5.t=" between four fifty and eight fifty.";
+                var hics = {};
+                f5.f=[uno,hics];
+                cma.t=", I'm thinking, is";
+                cma.f=[f5];
+                isbt.t=" between my buttocks";
+                var rin={}; var pft={}; var fin={};
+                isbt.f=[fin,fin,rin,rin,pft];
+                hap2b.t=" happens to be";
+                hap2b.f=[isbt,vl,e5];
+                e5.t=" between four fifty and eight fifty, and";
+                var denis = {};
+                e5.f=[hap2b,denis,icd];
+                is.t=" is";
+                var vl={};
+                is.f={isbt,vl,e5};
+                hics.t=" The higher this number is, the better chance I have at saving a lot of money.";
+                hics.f=[null];
+                uno.t=" Do you know what it is?";
+                var its = {}; var hpn={};
+                uno.f=[its,hpn];
+                rin.t=". Won't you reach in and grab it for me?";
+                rin.f=[null];
+                denis.t=" the number is";
+                denis.f=[isbt];
+                vl.t=" seven hundred and twenty";
+                var und={}; var wcs={};
+                vl.f=[fin,und,wcs];
+                its.t=" It's" /*the nutshack*/;
+                var fcs = {};
+                its.f=[fcs];
+                hpn.t=" It happens to be";
+                hpn.f=[vl, e5];
+                und.t=", and";
+                var icd = {};
+                und.f=[hap2b,isbt,icd];
+                pft.t=", which means I will save a lot of money.";
+                pft.f=[null];
+                fin.t=".";
+                fin.f=[null];
+                wcs.t=" which is";
+                wcs.f=[fcs];
+                fcs.t=" my free credit score";
+                fcs.f=[fin,und];
+                icd.t=" it could save me a lot of money the higher it is.";
+                var frt = {};
+                icd.f=[null,frt];
+                frt.t=" Fortunately that number";
+                frt.f=[is];
+
+                var bowman = function(ist,s) {
+                   var out = "";
+                   for (i=1; i<=s; i++) {
+                      var o=ist;
+                      while (o) {
+                         out += o.t;
+                         o = o.f[Math.floor(Math.random()*o.f.length)+1];
+                      }
+                   }
+                   write(out.substring(1));
+                }
+
+                var el = document.getElementById("number");
+
+                function gen() {
+                    var n = Number(el.value);
+
+                    if (isNaN(n))
+                        write("Invalid input");
+
+                    bowman(start,n);
+                }
+
+                var out = document.getElementById("output");
+
+                function write(str) {
+                    console.log(str);
+                    out.innerHTML = str;
+                }
+
+            </script>
+        
+    </body>
+
+</html>
