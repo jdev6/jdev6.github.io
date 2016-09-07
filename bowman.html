@@ -13,13 +13,43 @@
 
             <a class="back" href="../">go back</a>
 
-            <input placeholder="Parts (10+ recommended)" id="number" type="text" autofocus>
+            <input placeholder="Iterations (10+ recommended)" id="number" type="text" autofocus>
             <br>
-            <button onclick="gen();">Generate</button>
+            <button onclick="gen();">Generate text</button>
+            <button onclick="play();">Generate audio</button>
             <br>
             <p id="output"></p>
 
             <script>
+
+                var sources = {
+                    " I'm thinking of a number": "/res/bowman/thinking.mp3",
+                    " But do you know what number I'm thinking of?": "/res/bowman/butthinking.mp3",
+                    " This number": "/res/bowman/thisnumber.mp3",
+                    " The number": "/res/bowman/thenumber.mp3",
+                    " between my buttocks.": "/res/bowman/buttocks.mp3",
+                    " between four hundred and fifty and eight fifty.": "/res/bowman/450-850.mp3",
+                    ", I'm thinking, is": "/res/bowman/imthinking.mp3",
+                    " between my buttocks": "/res/bowman/buttocks.mp3",
+                    " happens to be": "/res/bowman/happens.mp3",
+                    " between four hundred and fifty and eight fifty, and": "/res/bowman/450-850and.mp3",
+                    " is": "/res/bowman/is.mp3",
+                    " The higher this number is, the better chance I have at saving a lot of money.": "/res/bowman/highernumber.mp3",
+                    " Do you know what it is?": "/res/bowman/doyouknow.mp3",
+                    ". Won't you reach in and grab it for me?": "/res/bowman/reachin.mp3",
+                    " the number is": "/res/bowman/thenumberis.mp3",
+                    " seven hundred and twenty": "/res/bowman/720.mp3",
+                    " It's": "/res/bowman/its.mp3",
+                    " It happens to be": "/res/bowman/happens2b.mp3",
+                    ", and": "/res/bowman/and.mp3",
+                    " my free credit score": "/res/bowman/creditscore.mp3",
+                    " Fortunately that number": "/res/bowman/fortunately.mp3",
+                    " it could save me a lot of money the higher it is.": "/res/bowman/itcould.mp3",
+                    " which is": "/res/bowman/whichis.mp3",
+                    ", which means I will save a lot of money.": "/res/bowman/whichmeans.mp3"
+
+                };
+
                 //translated directly from lua code
                 var start = {}; start.t = ""; var thnkf = {}; var thsn = {}; var den = {}; var bd = {};
                 start.f = [thnkf,thnkf,thsn,den,bd,hics];
@@ -36,7 +66,7 @@
                 bt.t=" between my buttocks.";
                 var uno={};
                 bt.f=[uno];
-                f5.t=" between four fifty and eight fifty.";
+                f5.t=" between four hundred and fifty and eight fifty.";
                 var hics = {};
                 f5.f=[uno,hics];
                 cma.t=", I'm thinking, is";
@@ -46,7 +76,7 @@
                 isbt.f=[fin,fin,rin,rin,pft];
                 hap2b.t=" happens to be";
                 hap2b.f=[isbt,vl,e5];
-                e5.t=" between four fifty and eight fifty, and";
+                e5.t=" between four hundred and fifty and eight fifty, and";
                 var denis = {};
                 e5.f=[hap2b,denis,icd];
                 is.t=" is";
@@ -87,33 +117,87 @@
                 frt.f=[is];
 
                 var bowman = function(ist,s) {
-                   var out = "";
+                   var out = [];
                    for (i=1; i<=s; i++) {
                       var o=ist;
                       while (o) {
-                         out += o.t;
+                         out.push(o.t);
                          o = o.f[Math.floor(Math.random()*o.f.length)];
                       }
                    }
-                   write(out.substring(1));
+                   return out;
                 }
 
                 var el = document.getElementById("number");
 
                 function gen() {
                     var n = Number(el.value);
+                    stopAll();
 
                     if (isNaN(n))
-                        write("Invalid input");
+                        return write("Invalid input");
 
-                    bowman(start,n);
+                    write(bowman(start,n).join(" "));
+                }
+
+                function stopAll() {
+                    var audios = document.getElementsByTagName('audio');
+
+                    for(var i = 0; i < audios.length; i++) {
+                        audios[i].parentNode.removeChild(audios[i]);
+                    }
+                    //stop all audios that are playing
+                }
+
+                function play() {
+                    write("");
+                    stopAll();
+                    var n = Number(el.value);
+
+                    if (isNaN(n))
+                        return write("Invalid input");
+
+                    var list = bowman(start, n);
+
+                    var i = 0;
+
+                    var cb = function() {
+                        x = list[i++];
+                        if (x === undefined) return;
+                        write(x, true);
+                        playSound(x, cb);
+                    }
+
+                    playSound(list[i], cb);
+                }
+
+                function playSound(aud, cb) {
+
+                    var url = sources[aud];
+                    console.log(cb);
+                    if (!url)
+                    return cb();
+
+                    console.log(url);
+                    var audio = document.createElement('audio');
+                    audio.style.display = "none";
+                    audio.src = url;
+                    audio.autoplay = true;
+                    audio.onended = function(){
+                        audio.remove();
+                        cb();
+                    };
+                    document.body.appendChild(audio);
                 }
 
                 var out = document.getElementById("output");
 
-                function write(str) {
+                function write(str, cat) {
                     console.log(str);
-                    out.innerHTML = str;
+                    if (cat)
+                        out.innerHTML += str+"\n";
+                    else
+                        out.innerHTML = str;
                 }
 
             </script>
